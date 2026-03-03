@@ -4,6 +4,7 @@ import { useGLTF } from '@tresjs/cientos'
 import { watch, onMounted } from 'vue'
 import * as THREE from 'three'
 import { useModelStore } from '../stores/model' // Импортируем ваш стор
+import { ModelMetadata } from '@/utils/modelMetadata';
 
 const props = defineProps<{ 
   filePath: string
@@ -13,6 +14,12 @@ const modelStore = useModelStore()
 
 // Загружаем модель один раз
 const { scene } = await useGLTF(props.filePath).execute()
+if (!scene) {
+  throw new Error("ObjectModel error : scene loading failed")
+}
+
+const meta = new ModelMetadata(scene, props.filePath)
+modelStore.metadata = meta
 
 const originalMaterials = new Map<string, THREE.Material | THREE.Material[]>()
 const clayMaterial = new THREE.MeshStandardMaterial({

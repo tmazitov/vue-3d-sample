@@ -2,6 +2,7 @@ import { ref, computed, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 import models from '@/utils/data';
 import type { Model } from '@/utils/model';
+import { ModelMetadata } from '@/utils/modelMetadata';
 
 function getPreloadModel(): Model | null {
   const preloadValueRaw = localStorage.getItem("model-id")
@@ -48,10 +49,12 @@ export type RenderMode = 'normal' | 'clay' | 'wireframe'
 export const useModelStore = defineStore('model', () => {
 
   const currentModel = ref(new CurrentModel());
-  const renderMode = ref<RenderMode>("normal")
+  const renderMode = ref<RenderMode>("normal");
+  const metadata = ref<ModelMetadata|null>(null)
 
   return {  
     currentModel,
     renderMode,
+    metadata,
   }
 })

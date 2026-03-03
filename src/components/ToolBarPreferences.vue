@@ -3,16 +3,44 @@
     <Button @click="toggle" icon="pi pi-bars" severity="secondary" variant="outlined"/>
 
     <Popover ref="op">
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4" v-if="modelMetadata">
             <SelectButton v-model="renderMode" :options="options" optionLabel="label" optionValue="value" />
-        </div>
+      
+            <Message>
+                {{ model.getModel().comment }}
+            </Message>
+            
+            <div class="flex flex-col max-h-30 overflow-auto" v-if="modelMetadata">
+
+
+
+                <p>
+                    File name: {{ modelMetadata.fileName }}
+                </p>
+                <p>
+                    Vertices: {{ modelMetadata.vertices }}
+                </p>
+                <p>
+                    Faces: {{ modelMetadata.faces }}
+                </p>
+                <p>
+                    Materials ({{ modelMetadata.materialCount }}) :
+                </p>
+                <ul>
+                    <li v-for="material in modelMetadata.uniqueMaterials">
+                        {{ material }}
+                    </li>
+                </ul>
+
+            </div>
+        </div>      
     </Popover>
 </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { Button, Popover, SelectButton } from 'primevue';
+import { Button, Popover, SelectButton, Message } from 'primevue';
 import { useModelStore, type RenderMode } from '@/stores/model';
 
 const op = ref();
@@ -21,6 +49,8 @@ const toggle = (event:Event) => {
 }
 
 const modelStore = useModelStore()
+const model = computed(() => modelStore.currentModel)
+const modelMetadata = computed(() => modelStore.metadata)
 const renderMode = computed({
     get() {
         return modelStore.renderMode

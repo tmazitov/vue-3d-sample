@@ -1,0 +1,11 @@
+Model Information:
+* title:	Nissan R35 GTR Nismo 2024
+* source:	https://sketchfab.com/3d-models/nissan-r35-gtr-nismo-2024-584f0efbfdbf4a09b8c03ff97d6e2d8b
+* author:	Matt3Dcrap (https://sketchfab.com/MSLZG)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Nissan R35 GTR Nismo 2024" (https://sketchfab.com/3d-models/nissan-r35-gtr-nismo-2024-584f0efbfdbf4a09b8c03ff97d6e2d8b) by Matt3Dcrap (https://sketchfab.com/MSLZG) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
