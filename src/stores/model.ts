@@ -42,11 +42,16 @@ class CurrentModel {
   }
 }
 
+export type RenderMode = 'normal' | 'clay' | 'wireframe'
+
+
 export const useModelStore = defineStore('model', () => {
 
   const currentModel = ref(new CurrentModel());
+  const renderMode = ref<RenderMode>("normal")
 
   return {  
-    currentModel
+    currentModel,
+    renderMode,
   }
 })

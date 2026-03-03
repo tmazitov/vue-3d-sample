@@ -7,7 +7,7 @@
     </template>
 
     <template #end>
-        <Checkbox  class="mr-2" binary />   
+        <ToolBarPreferences/>
     </template>
 </Toolbar>
 </template>
@@ -16,6 +16,7 @@
 import { useModelStore } from '@/stores/model';
 import { Toolbar, Button, IconField, InputIcon, Checkbox } from 'primevue';
 import ToolBarTitle from './ToolBarTitle.vue'
+import ToolBarPreferences from './ToolBarPreferences.vue'
 import { computed } from 'vue';
 import type { Model } from '@/utils/model';
 

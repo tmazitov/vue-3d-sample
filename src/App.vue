@@ -48,6 +48,7 @@
       :onResolve="() => isLoading = false">
         <template #default>
           <ObjectModel v-if="currentModel" :key="`${currentModel.getModel().name}`"
+          :mode="renderMode"
           :filePath="currentModel.getModel().filePath" />
         </template>
         
@@ -82,7 +83,7 @@ import { useModelStore } from './stores/model'
 
 const modelStore = useModelStore()
 const currentModel = computed(() => modelStore.currentModel)
-
+const renderMode = computed(() => modelStore.renderMode)
 const isLoading = ref(false)
 
 </script>

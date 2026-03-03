@@ -1,39 +1,67 @@
 <script setup lang="ts">
 import { useGLTF } from '@tresjs/cientos'
-// import { GLTF } from 'three-stdlib'
+import { watch, onMounted } from 'vue'
+import * as THREE from 'three'
 
-const props = defineProps({
-  filePath: {
-    type: String,
-    required: true,
-  }
+const props = defineProps<{ 
+  filePath: string,
+  mode: string 
+}>()
+
+const model = await useGLTF(props.filePath).execute()
+
+// 1. Storage for original materials so we can go back to "Normal"
+const originalMaterials = new Map<string, THREE.Material | THREE.Material[]>()
+
+// 2. Create a shared "Clay" material
+const clayMaterial = new THREE.MeshStandardMaterial({
+  color: 0x999999,
+  roughness: 0.8,
+  metalness: 0.2
 })
 
-// By using execute(), 'model' becomes the actual GLTF data returned by the hook
-const model = await useGLTF(props.filePath).execute()
-if (!model) {
-  throw new Error(`Failed to load model from path: ${props.filePath}`)
-}
-// Now TypeScript sees animations perfectly
-const animations = model.animations 
-const scene = model.scene
-scene.traverse((child: any) => {
-  if (child.isMesh) {
-      // 1. Hide anything that looks like a floor/plane/ground
-      if (child.name.toLowerCase().includes('floor') || 
-          child.name.toLowerCase().includes('plane') || 
-          child.name.toLowerCase().includes('ground')) {
-        child.visible = false 
+const applyRenderMode = (mode: string) => {
+  if (!model || !model.scene) return
+
+  model.scene.traverse((child: any) => {
+    if (child.isMesh) {
+      // Save original material if not already saved
+      if (!originalMaterials.has(child.uuid)) {
+        originalMaterials.set(child.uuid, child.material)
       }
 
-      // 2. Ensure the rest of the car casts shadows
+      const original = originalMaterials.get(child.uuid)
+
+      if (mode === 'normal') {
+        child.material = original
+        child.material.wireframe = false
+      } 
+      else if (mode === 'clay') {
+        child.material = clayMaterial
+        child.material.wireframe = false
+      } 
+      else if (mode === 'wireframe') {
+        // We use the original material but turn on wireframe
+        child.material = original
+        child.material.wireframe = true
+      }
+      
       child.castShadow = true
       child.receiveShadow = true
     }
-})
+  })
+}
 
+// Watch for mode changes from the parent component
+watch(() => props.mode, (newMode) => {
+  applyRenderMode(newMode)
+}, { immediate: true })
+
+onMounted(() => {
+  applyRenderMode(props.mode)
+})
 </script>
 
 <template>
-  <primitive :object="scene" />
+  <primitive :object="model.scene" />
 </template>
