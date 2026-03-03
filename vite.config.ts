@@ -9,6 +9,8 @@ export default defineConfig({
     vue(),
     tailwindcss(),
   ],
+  base: '/vue-3d-sample/', // Оставляем это
+  build: { outDir: 'dist', emptyOutDir: true }, // Оставляем это
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
