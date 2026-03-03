@@ -2,7 +2,6 @@
 
 <template>
   <LoadingOverlay v-model="isLoading" />
-
   <Toolbar v-if="!isLoading"/>
 
   <div id="canvas-container">
@@ -11,55 +10,24 @@
         <Environment preset="studio" /> 
       </Suspense>
 
-      <TresPerspectiveCamera :position="[5, 5, 5]" />
-      <OrbitControls />
+      <TresPerspectiveCamera make-default :position="[5, 5, 5]" />
+      <OrbitControls make-default />
       
       <TresAmbientLight :intensity="0.5" />
-
-      <ContactShadows
-        :opacity="0.6"
-        :blur="2.5"
-        :scale="20"
-        :far="10"
-        :resolution="512"
-        color="#000000"
-      />
-
-        <!-- <AccumulativeShadows
-          temporal
-          :frames="100"     
-          :color="'#111111'"
-          :opacity="0.8"
-          :scale="20"        
-          :position="[0, -0.01, 0]" 
-        >
-          <RandomizedLights
-            :amount="8"        
-            :radius="5"        
-            :ambient="0.5"
-            :intensity="1"
-            :position="[5, 5, -5]"
-          />
-        </AccumulativeShadows> -->
+      <ContactShadows :opacity="0.6" :blur="2.5" :scale="20" color="#000000" />
 
       <Suspense 
-      :onFallback="() => isLoading = true"
-      :onPending="() => isLoading = true"
-      :onResolve="() => isLoading = false">
+        @pending="isLoading = true"
+        @resolve="isLoading = false"
+      >
         <template #default>
-          <ObjectModel v-if="currentModel" :key="`${currentModel.getModel().name}`"
-          :mode="renderMode"
-          :filePath="currentModel.getModel().filePath" />
+          <ObjectModel 
+            v-if="currentModel"
+            :key="currentModel.getModel().filePath"
+            :filePath="currentModel.getModel().filePath" 
+          />
         </template>
-        
       </Suspense>
-
-        <!-- <AccumulativeShadows
-          :blend="100"
-          color="#923874"
-          once
-          :position-y="-0.4"
-        /> -->
 
       <TresGridHelper :args="[10, 10]" />
     </TresCanvas>
