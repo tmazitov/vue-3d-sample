@@ -1,26 +1,34 @@
 <template>
-<Toolbar>
-    <template #start>
-        <Button icon="pi pi-plus" class="mr-2" severity="secondary" text />
-        <Button icon="pi pi-print" class="mr-2" severity="secondary" text />
-        <Button icon="pi pi-upload" severity="secondary" text />
-    </template>
+<Toolbar class="top-4 left-4 right-4 absolute z-1">
 
     <template #center>
-        <IconField>
-            <InputIcon>
-                <i class="pi pi-search" />
-            </InputIcon>
-            <InputText placeholder="Search" />
-        </IconField>
+        <ToolBarTitle v-if="currentModel"
+        v-model="currentModel"/>
     </template>
 
     <template #end>
-    
+        <Checkbox  class="mr-2" binary />   
     </template>
 </Toolbar>
 </template>
 
 <script lang="ts" setup>
-import { Toolbar, Button, IconField, InputIcon, SplitButton } from 'primevue';
+import { useModelStore } from '@/stores/model';
+import { Toolbar, Button, IconField, InputIcon, Checkbox } from 'primevue';
+import ToolBarTitle from './ToolBarTitle.vue'
+import { computed } from 'vue';
+import type { Model } from '@/utils/model';
+
+const modelStore = useModelStore()
+
+const currentModel = computed({
+    get() {
+        return modelStore.currentModel.getModel()
+    },
+    set(model: Model) {
+        console.log("modelStore", model)
+        modelStore.currentModel.update(model.id)
+    }
+})
+
 </script>

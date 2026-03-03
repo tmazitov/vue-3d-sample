@@ -1,0 +1,11 @@
+Model Information:
+* title:	Dragon Model Sculpture
+* source:	https://sketchfab.com/3d-models/dragon-model-sculpture-e3f097f432f849f1b7d48dd522f858f3
+* author:	petivisi1971 (https://sketchfab.com/petivisi1971)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Dragon Model Sculpture" (https://sketchfab.com/3d-models/dragon-model-sculpture-e3f097f432f849f1b7d48dd522f858f3) by petivisi1971 (https://sketchfab.com/petivisi1971) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

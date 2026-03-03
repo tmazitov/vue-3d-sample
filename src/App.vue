@@ -1,28 +1,13 @@
-<script setup lang="ts">
-import { TresCanvas, } from '@tresjs/core'
-import { 
-  OrbitControls, 
-  AccumulativeShadows, 
-  RandomizedLights,
-  Environment,
-  ContactShadows,
-} from '@tresjs/cientos'
-import ObjectModel from './components/ObjectModel.vue'
-import LoadingOverlay from './components/LoadingOverlay.vue'
-import { ref } from 'vue'
 
-const filePath = '/models/car/scene.gltf' // Path to your 3D model
-
-const isFallback = ref(false)
-
-</script>
 
 <template>
-  <LoadingOverlay v-model="isFallback" />
+  <LoadingOverlay v-model="isLoading" />
+
+  <Toolbar v-if="!isLoading"/>
 
   <div id="canvas-container">
     <TresCanvas clear-color="#111111" shadows window-size>
-  <Suspense>
+      <Suspense>
         <Environment preset="studio" /> 
       </Suspense>
 
@@ -32,13 +17,13 @@ const isFallback = ref(false)
       <TresAmbientLight :intensity="0.5" />
 
       <ContactShadows
-  :opacity="0.6"
-  :blur="2.5"
-  :scale="20"
-  :far="10"
-  :resolution="512"
-  color="#000000"
-/>
+        :opacity="0.6"
+        :blur="2.5"
+        :scale="20"
+        :far="10"
+        :resolution="512"
+        color="#000000"
+      />
 
         <!-- <AccumulativeShadows
           temporal
@@ -58,10 +43,12 @@ const isFallback = ref(false)
         </AccumulativeShadows> -->
 
       <Suspense 
-      :onFallback="() => isFallback = true"
-      :onResolve="() => isFallback = false">
+      :onFallback="() => isLoading = true"
+      :onPending="() => isLoading = true"
+      :onResolve="() => isLoading = false">
         <template #default>
-          <ObjectModel :filePath="filePath" />
+          <ObjectModel v-if="currentModel" :key="`${currentModel.getModel().name}`"
+          :filePath="currentModel.getModel().filePath" />
         </template>
         
       </Suspense>
@@ -77,6 +64,28 @@ const isFallback = ref(false)
     </TresCanvas>
   </div>
 </template>
+
+<script setup lang="ts">
+import { TresCanvas, } from '@tresjs/core'
+import { 
+  OrbitControls, 
+  AccumulativeShadows, 
+  RandomizedLights,
+  Environment,
+  ContactShadows,
+} from '@tresjs/cientos'
+import Toolbar from './components/ToolBar.vue'
+import ObjectModel from './components/ObjectModel.vue'
+import LoadingOverlay from './components/LoadingOverlay.vue'
+import { computed, ref } from 'vue'
+import { useModelStore } from './stores/model'
+
+const modelStore = useModelStore()
+const currentModel = computed(() => modelStore.currentModel)
+
+const isLoading = ref(false)
+
+</script>
 
 <style scoped>
 #canvas-container {
