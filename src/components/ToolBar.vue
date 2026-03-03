@@ -1,5 +1,9 @@
 <template>
-<Toolbar class="top-4 left-4 right-4 absolute z-1">
+<Toolbar class="top-4 left-2 right-2 absolute z-1 p-3">
+
+    <template #start>
+        <Button icon="pi pi-asterisk" label="Snoẃ" variant="text" />
+    </template>
 
     <template #center>
         <ToolBarTitle v-if="currentModel"
@@ -14,7 +18,7 @@
 
 <script lang="ts" setup>
 import { useModelStore } from '@/stores/model';
-import { Toolbar, Button, IconField, InputIcon, Checkbox } from 'primevue';
+import { Toolbar, Button } from 'primevue';
 import ToolBarTitle from './ToolBarTitle.vue'
 import ToolBarPreferences from './ToolBarPreferences.vue'
 import { computed } from 'vue';

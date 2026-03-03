@@ -1,7 +1,8 @@
 <template>
 <div>
     <h3 v-if="currentModel"  @click="toggle"
-    class="text-xl cursor-pointer hover:text-gray-300 transition-colors select-none">
+    class="text-lg cursor-pointer hover:text-gray-300 transition-colors select-none">
+        <i class="pi pi-chevron-down text-gray-500"></i>
         {{ currentModel.name }}
     </h3>
 
